@@ -1,16 +1,27 @@
-# This is a sample Python script.
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def read_file():
+    try:
+        with open("tresc_artykulu.txt", 'r', encoding="utf-8") as f:
+            return f.read()
+    except FileNotFoundError:
+        print("ERROR: Nie odnaleziono pliku tresc_artykulu.txt")
+    except Exception:
+        print("ERROR: Nieoczekiwany błąd")
 
+def add_to_html(article):
+    try:
+        with open("szablon.html", 'r') as f:
+            html = f.read()
+            result = f'{html}\n{article}\n\t</div>\n</body>\n</html>'
+            with open("podglad.html", 'w', encoding="utf-8") as f_html:
+                f_html.write(result)
+    except FileNotFoundError:
+        print("ERROR: Nie odnaleziono pliku szablon.html")
+    except Exception:
+        print("ERROR: Nieoczekiwany błąd")
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    artcile = read_file()
+    print(artcile)
+    add_to_html(artcile)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
