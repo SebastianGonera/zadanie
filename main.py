@@ -22,35 +22,6 @@ def read_file():
         print(f'ERROR: {error}')
 
 
-def add_to_html(article):
-    """
-    Funckja odczytuje plik szablon.html. Następnie dodaje do niego tekst z parametrem article.
-    Zmodyfkiowaną zawartość zapsiuje w pliku podglad.html.
-    """
-    try:
-        with (open("szablon.html", 'r') as f):
-            html = BeautifulSoup(f, 'html.parser')
-            div_container = html.find('div', class_='container')
-
-            if div_container:
-                text = article + "\n"
-                div_container.append(BeautifulSoup(text, 'html.parser'))
-            else:
-                raise ValueError("Nie znaleziono elementu <div class='container'>.")
-
-            with open("podglad.html", 'w', encoding="utf-8") as f_html:
-                f_html.write(str(html))
-
-    except FileNotFoundError:
-        print("ERROR: Nie odnaleziono pliku szablon.html")
-
-    except ValueError as e:
-        print(f"Błąd: {e}")
-
-    except Exception as error:
-        print(f'ERROR: {error}')
-
-
 def generate_html():
     """
     Wysyła zapytanie do OpenAI. Nastepnie zawartośc odpowiedzi przekazuje do funkcji add_to_html.
@@ -91,6 +62,34 @@ def generate_html():
     except Exception as error:
         print(f'ERROR: {error}')
 
+def add_to_html(article):
+    """
+    Funckja odczytuje plik szablon.html. Następnie dodaje do niego tekst z parametrem article.
+    Zmodyfkiowaną zawartość zapsiuje w pliku podglad.html.
+    """
+    try:
+        with (open("szablon.html", 'r') as f):
+            html = BeautifulSoup(f, 'html.parser')
+            div_container = html.find('div', class_='container')
+
+            if div_container:
+                text = article + "\n"
+                div_container.append(BeautifulSoup(text, 'html.parser'))
+            else:
+                raise ValueError("Nie znaleziono elementu <div class='container'>.")
+
+            with open("podglad.html", 'w', encoding="utf-8") as f_html:
+                f_html.write(str(html))
+                print("Utworzono plik 'podglad.html'.")
+
+    except FileNotFoundError:
+        print("ERROR: Nie odnaleziono pliku szablon.html")
+
+    except ValueError as e:
+        print(f"Błąd: {e}")
+
+    except Exception as error:
+        print(f'ERROR: {error}')
 
 if __name__ == '__main__':
     load_dotenv()
